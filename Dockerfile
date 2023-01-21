@@ -4,10 +4,7 @@ WORKDIR /app
 
 COPY ./app ./
 
-ARG BUILD_DATE
-ARG BUILD_VERSION
-
-COPY requirements.txt requirements.txt
+# COPY requirements.txt requirements.txt
 
 RUN pip install -r requirements.txt
 
