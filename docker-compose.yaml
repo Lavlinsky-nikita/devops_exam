@@ -16,7 +16,7 @@ services:
       MYSQL_PASSWORD: admin
       MYSQL_DATABASE: devops_exam_db
     ports: # Сопоставление портов хост-машины и контейнера
-      - 3306:3306
+      - 3307:3307
     restart: unless-stopped #условие для рестарта в случае остановки контейнера
 
   devops_exam_app:
