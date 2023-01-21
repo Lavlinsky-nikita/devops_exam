@@ -4,3 +4,4 @@ PyMySQL
 werkzeug
 flask-migrate
 flask-sqlalchemy
+cryptography
