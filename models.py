@@ -7,16 +7,6 @@ from flask_login import UserMixin
 from flask import url_for
 from users_policy import UsersPolicy
 
-class Role(db.Model):
-    __tablename__ = 'roles'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    desciption = db.Column(db.Text, nullable=False)
-
-    def __repr__(self):
-        return '<Role %r>' % self.name
-
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
@@ -40,139 +30,19 @@ class User(db.Model, UserMixin):
     def full_name(self):
         return ' '.join([self.last_name, self.first_name, self.middle_name or ''])
 
-    @property
-    def is_admin(self):
-        return app.config.get('ADMIN_ROLE_ID') == self.role_id
-
-    @property
-    def is_moder(self):
-        return app.config.get('MODER_ROLE_ID') == self.role_id
-    
-    @property
-    def is_user(self):
-        return app.config.get('USER_ROLE_ID') == self.role_id
-
-    def can(self, action):
-        users_policy = UsersPolicy()
-        method = getattr(users_policy, action)
-        if method is not None:
-            return method()
-        return False
-
     def __repr__(self):
         return '<User %r>' % self.login
 
-class Book(db.Model):
-    __tablename__ = 'books'
-
+class Table1(db.Model):
+    __tablename__ = 'table1'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    short_desc = db.Column(db.Text, nullable=False)
-    rating_sum = db.Column(db.Integer, nullable=False, default=0)
-    rating_num = db.Column(db.Integer, nullable=False, default=0)
-    year = db.Column(mysql.YEAR, nullable=False)
-    publisher = db.Column(db.String(100), nullable=False)
-    author = db.Column(db.String(100), nullable=False)
-    vol_pages = db.Column(db.Integer, nullable=False, default=0)
-
-
+    name = b.Column(db.String(100), nullable=False)
     def __repr__(self):
-        return '<Book %r>' % self.name
-    
-    @property
-    def rating(self):
-        if self.rating_num > 0:
-            return self.rating_sum / self.rating_num
-        return 0
+        return '<Table1 %r>' % self.name
 
-class Image(db.Model):
-    __tablename__ = 'images'
-
-    id = db.Column(db.String(100), primary_key=True)
-    file_name = db.Column(db.String(100), nullable=False)
-    mime_type = db.Column(db.String(100), nullable=False)
-    md5_hash = db.Column(db.String(100), nullable=False, unique=True)
-    created_at = db.Column(db.DateTime, nullable=False, server_default=sa.sql.func.now())
-    book_id = db.Column(db.Integer, db.ForeignKey('books.id', ondelete='CASCADE'))
-
-    book_img = db.relationship('Book')
-
-
-    def __repr__(self):
-        return '<Image %r>' % self.file_name
-
-    @property
-    def storage_filename(self):
-        _, ext = os.path.splitext(self.file_name)
-        return self.id + ext
-
-    @property
-    def url(self):
-        return url_for('image', image_id = self.id)
-
-class Review(db.Model):
-    __tablename__ = 'reviews'
-
+class Table2(db.Model):
+    __tablename__ = 'table2'
     id = db.Column(db.Integer, primary_key=True)
-    rating = db.Column(db.Integer, nullable=False)
-    text = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, server_default=sa.sql.func.now())
-    book_id = db.Column(db.Integer, db.ForeignKey('books.id', ondelete='CASCADE'))
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'))
-
-    book = db.relationship('Book')
-    user = db.relationship('User')
-
+    name = b.Column(db.String(100), nullable=False)
     def __repr__(self):
-        return '<Review %r>' % self.text
-
-class Genre(db.Model):
-    __tablename__ = 'genres'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False, unique=True)
-
-    def __repr__(self):
-        return '<Genre %r>' % self.name
-
-class BookGenre(db.Model):
-    __tablename__ = 'book_genre'
-
-    id = db.Column(db.Integer, primary_key=True)
-    book_id = db.Column(db.Integer, db.ForeignKey('books.id', ondelete='CASCADE'))
-    genre_id = db.Column(db.Integer, db.ForeignKey('genres.id', ondelete='CASCADE'))
-
-    book = db.relationship('Book')
-    genre = db.relationship('Genre')
-
-    def __repr__(self):
-        return '<GenresOfBook %r>' % self.id
-
-    @property
-    def save_book_genre(self):
-        pass
-
-class Collection(db.Model):
-    __tablename__ = 'collections'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'))
-
-    user = db.relationship('User')
-
-    def __repr__(self):
-        return '<Collection %r>' % self.name
-
-class BookCollection(db.Model):
-    __tablename__ = 'book_collection'
-
-    id = db.Column(db.Integer, primary_key=True)
-    collection_id = db.Column(db.Integer, db.ForeignKey('collections.id', ondelete='CASCADE'))
-    book_id = db.Column(db.Integer, db.ForeignKey('books.id', ondelete='CASCADE'))
-
-    selection = db.relationship('Collection')
-    book = db.relationship('Book')
-
-    def __repr__(self):
-        return '<BookCollection %r>' % self.id
+        return '<Table2 %r>' % self.name
