@@ -26,8 +26,9 @@ from auth import bp as auth_bp, init_login_manager
 
 app.register_blueprint(auth_bp)
 
-
 init_login_manager(app)
+
+from models import Table1, Table2
 
 @app.route('/')
 def index():
