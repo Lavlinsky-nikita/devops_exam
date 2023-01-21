@@ -1,0 +1,8 @@
+flask
+flask-login
+PyMySQL
+werkzeug
+flask-migrate
+flask-sqlalchemy
+markdown
+bleach
