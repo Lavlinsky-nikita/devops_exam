@@ -27,7 +27,7 @@ services:
       context: ./ # Каталог, используемый для сборки
       dockerfile: Dockerfile # Файл, используемый для сборки образа приложения
     ports:
-     - 10090:80
+     - 10091:80
     # networks:
     #   - devops_exam-net
     restart: unless-stopped
