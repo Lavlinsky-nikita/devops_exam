@@ -29,16 +29,21 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return '<User %r>' % self.login
 
-class Table1(db.Model):
-    __tablename__ = 'table1'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+class Doctors(db.Model):
+    __tablename__ = 'doctors'
+    id_doctor = db.Column(db.Integer, primary_key=True)
+    fio = db.Column(db.String(100), nullable=False)
+    work_time = db.Column(db.String(100), nullable=False)
+    specialisation = db.Column(db.String(100), nullable=False)
     def __repr__(self):
-        return '<Table1 %r>' % self.name
+        return '<Doctor.FIO %r>' % self.fio 
 
-class Table2(db.Model):
-    __tablename__ = 'table2'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+class Records(db.Model):
+    __tablename__ = 'records'
+    id_record = db.Column(db.Integer, primary_key=True)
+    telephone = db.Column(db.String(8), nullable=False)
+    code_sms = db.Column(db.String(8), nullable=False)
+    id_doctor = db.Column(db.Integer, db.ForeignKey("doctors.id_doctor"), nullable=False)
+    time_record = db.Column(db.String(8), nullable=False)
     def __repr__(self):
-        return '<Table2 %r>' % self.name
+        return '<Record.Telephone %r>' % self.telephone
