@@ -1,5 +1,42 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+<h1 class="mt-2">Doctors</h1>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">FIO</th>
+        <th scope="col">Work Time</th>
+        <th scope="col">Specialisation</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for doctor in doctors %}
+        <tr>
+            <td>{{ doctor.fio }}</td>
+            <td>{{ doctor.work_time }}</td>
+            <td>{{ doctor.specialisation }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% if records != None%}
+    <h1 class="mt-2">Records</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Telephone</th>
+                <th scope="col">Record Time</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for record in records %}
+            <tr>
+                <td>{{ record.telephone }}</td>
+                <td>{{ record.time_record }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
 {% endblock %}

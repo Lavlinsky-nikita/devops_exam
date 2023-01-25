@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
-from models import User
+from models import Records
 import functools
 
 
@@ -17,17 +17,17 @@ def init_login_manager(app):
 
 
 def load_user(user_id):
-    user = User.query.get(user_id)
+    user = Records.query.get(user_id)
     return user
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        login = request.form.get('login')
-        password = request.form.get('password')
-        if login and password:
-            user = User.query.filter_by(login=login).first()
-            if user and user.check_password(password):
+        telephone = request.form.get('login')
+        code = request.form.get('password')
+        if login and code:
+            user = Records.query.filter_by(telephone=telephone).first()
+            if user and user.code_sms == code:
                 login_user(user)
                 flash('Вы успешно аутентифицированы.', 'success')
                 next = request.args.get('next')

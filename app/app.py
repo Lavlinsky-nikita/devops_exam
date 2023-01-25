@@ -3,6 +3,7 @@ from flask import Flask, render_template, abort, send_from_directory, render_tem
 from sqlalchemy import MetaData
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_login import current_user
 
 app = Flask(__name__)
 application = app
@@ -28,17 +29,18 @@ app.register_blueprint(auth_bp)
 
 init_login_manager(app)
 
-from models import Table1, Table2
+from models import Doctors, Records
 
 @app.route('/')
 def index():
+    doctors = Doctors.query.all()
+    records = None
+    if current_user.is_authenticated:
+        records = Records.query.all()
+        for record in records:
+            record.id_doctor = record.doctor.fio
+    return render_template('index.html', doctors=doctors, records=records)
 
-    return render_template('index.html')
 
-
-@app.route('/second')
-def second():
-
-    return render_template('second.html')
 
 
